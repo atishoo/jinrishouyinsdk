@@ -2,8 +2,8 @@
 
 namespace ShouyinToday;
 
-use model\CreateOrder;
-use model\CreateQrLinkData;
+use ShouyinToday\model\CreateOrder;
+use ShouyinToday\model\CreateQrLinkData;
 
 class Cashier
 {
