@@ -5,6 +5,8 @@ namespace ShouyinToday;
 use ShouyinToday\model\CreateOrder;
 use ShouyinToday\model\CreateQrLinkData;
 use ShouyinToday\model\CreateQrLinkDataResponse;
+use ShouyinToday\model\QrGrantResponse;
+use ShouyinToday\model\UserInfoData;
 
 class Cashier
 {
@@ -44,14 +46,46 @@ class Cashier
         return new CreateQrLinkDataResponse($response);
     }
 
-    public function getUserInfo(string $code)
+    public function getUserInfo(string $authcode)
     {
+        $params = [
+            'code'=> $authcode,
+            'appid' => $this->appid,
+        ];
 
+        $params['sign'] = $this->_buildSign($params);
+
+        $response = $this->_post(self::_get_user_info, $params);
+
+        return new UserInfoData($response);
     }
 
-    public function getUserPhone(string $code)
+    public function getUserPhone(string $authcode)
     {
+        $params = [
+            'code'=> $authcode,
+            'appid' => $this->appid,
+        ];
 
+        $params['sign'] = $this->_buildSign($params);
+
+        $response = $this->_post(self::_get_user_phone, $params);
+
+        return new UserInfoData($response);
+    }
+
+    public function getGrantStatus(string $response)
+    {
+        $result = $this->_decryptByPrivateKey($response);
+        return new QrGrantResponse($result);
+    }
+
+    private function _decryptByPrivateKey(string $body) : array
+    {
+        $body = base64_decode(str_replace('"', "", $body));
+        openssl_private_decrypt($body, $result, $this->private_key);
+        $result = json_decode($result, true);
+        return $result;
     }
 
     private function _buildSign(array $params)
