@@ -4,6 +4,7 @@ namespace ShouyinToday;
 
 use ShouyinToday\model\CreateOrder;
 use ShouyinToday\model\CreateQrLinkData;
+use ShouyinToday\model\CreateQrLinkDataResponse;
 
 class Cashier
 {
@@ -39,7 +40,8 @@ class Cashier
         $params['sign'] = $this->_buildSign($params);
 
         $response = $this->_post(self::_create_grant_qr_text, $params);
-        return $response;
+        
+        return CreateQrLinkDataResponse($response);
     }
 
     public function getUserInfo(string $code)
@@ -57,7 +59,7 @@ class Cashier
         ksort($params, SORT_STRING);
         $result = "";
         openssl_private_encrypt(md5(http_build_query($params)), $result, $this->private_key);
-        return $result;
+        return  base64_encode($result);
     }
 
     private function _post(string $url, array $body)
