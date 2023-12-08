@@ -39,7 +39,7 @@ class Cashier
         $params['sign'] = $this->_buildSign($params);
 
         $response = $this->_post(self::_create_grant_qr_text, $params);
-
+        return $response;
     }
 
     public function getUserInfo(string $code)
