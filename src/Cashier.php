@@ -1,5 +1,7 @@
 <?php
 
+namespace ShouyinToday;
+
 use model\CreateOrder;
 use model\CreateQrLinkData;
 

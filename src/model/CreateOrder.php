@@ -1,6 +1,6 @@
 <?php
 
-namespace model;
+namespace ShouyinToday\model;
 
 class CreateOrder
 {
