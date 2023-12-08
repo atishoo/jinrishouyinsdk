@@ -1,0 +1,19 @@
+{
+  "config" : {
+    "optimize-autoloader" : true
+  },
+  "autoload" : {
+    "psr-4" : {
+      "ShouyinToday\\" : "src"
+    }
+  },
+  "name" : "shouyintoday/phpsdk",
+  "type" : "library",
+  "description": "Shouyin.Today php sdk",
+  "version": "1.0.0",
+  "require" : {
+    "php" : ">=5.6",
+    "ext-openssl": "*",
+    "ext-curl": "*"
+  }
+}
