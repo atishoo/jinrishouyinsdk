@@ -28,7 +28,7 @@ class Cashier
 
     }
 
-    public function getGrantQrText(CreateQrLinkData $obj)
+    public function getGrantQrText(CreateQrLinkData $obj):CreateQrLinkDataResponse
     {
         $params = [
             'no' => strlen($obj->getId())>32?substr($obj->getId(),0,32):$obj->getId(),
@@ -40,8 +40,8 @@ class Cashier
         $params['sign'] = $this->_buildSign($params);
 
         $response = $this->_post(self::_create_grant_qr_text, $params);
-        
-        return CreateQrLinkDataResponse($response);
+
+        return new CreateQrLinkDataResponse($response);
     }
 
     public function getUserInfo(string $code)
