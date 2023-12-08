@@ -39,7 +39,7 @@ class Cashier
             'noncestr' => $obj->getNoncestr()
         ];
 
-        $params['sign'] = $this->_buildSign($params);
+        $params = $this->_buildSign($params);
 
         $response = $this->_post(self::_create_grant_qr_text, $params);
 
@@ -53,7 +53,7 @@ class Cashier
             'appid' => $this->appid,
         ];
 
-        $params['sign'] = $this->_buildSign($params);
+        $params = $this->_buildSign($params);
 
         $response = $this->_post(self::_get_user_info, $params);
 
@@ -67,7 +67,7 @@ class Cashier
             'appid' => $this->appid,
         ];
 
-        $params['sign'] = $this->_buildSign($params);
+        $params = $this->_buildSign($params);
 
         $response = $this->_post(self::_get_user_phone, $params);
 
@@ -90,10 +90,14 @@ class Cashier
 
     private function _buildSign(array $params)
     {
+        array_filter($params, function ($value){
+            return ($value !== null && $value !== '');
+        });
         ksort($params, SORT_STRING);
         $result = "";
         openssl_private_encrypt(md5(http_build_query($params)), $result, $this->private_key);
-        return  base64_encode($result);
+        $params['sign'] = base64_encode($result);
+        return $params;
     }
 
     private function _post(string $url, array $body)
