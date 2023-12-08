@@ -56,7 +56,7 @@ class Cashier
     {
         ksort($params, SORT_STRING);
         $result = "";
-        openssl_private_encrypt($params, $result, $this->private_key);
+        openssl_private_encrypt(http_build_query($params), $result, $this->private_key);
         return $result;
     }
 
