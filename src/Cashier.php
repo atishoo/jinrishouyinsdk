@@ -76,8 +76,7 @@ class Cashier
 
     public function getGrantStatus(string $response)
     {
-        $result = $this->_decryptByPrivateKey($response);
-        return new QrGrantResponse($result);
+        return new QrGrantResponse(json_decode($response, true));
     }
 
     private function _decryptByPrivateKey(string $body) : array
